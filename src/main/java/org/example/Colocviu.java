@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Colocviu {
 
     public static List<String> fetchItems(String url, String itemClass){
         List<String> items = new ArrayList<>();
@@ -24,12 +24,13 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("Read success");
         return items;
     }
 
     public static void writeToXLS(List<String> items, String path){
         try {
-            FileOutputStream out = new FileOutputStream(path, false);
+            FileOutputStream out = new FileOutputStream(path + ".xlsx", false);
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("output");
             int i = 0;
@@ -43,16 +44,12 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("Write success");
     }
 
     public static void main(String[] args) {
 
         List<String> items = fetchItems("https://ulbsibiu.ro/", ".nav-link");
-        String filename;
-        System.out.println("Input file name: ");
-        Scanner scanner = new Scanner(System.in);
-        filename = scanner.nextLine() + ".xlsx";
-        writeToXLS(items, filename);
-
+        writeToXLS(items, args[0]);
     }
 }
